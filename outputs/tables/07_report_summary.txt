@@ -1,0 +1,148 @@
+============================================================
+REPORT ASSETS — Konsolidasi Output Final
+============================================================
+
+=== TABEL 1: DATASET SUMMARY ===
+ n_orders_final  broad_positive_rate  severe_positive_rate   date_min   date_max
+          95568               0.2106                 0.128 2017-01-05 2018-08-29
+
+=== TABEL 2: SPLIT TEMPORAL ===
+     split  n_orders  broad_positive_rate  severe_positive_rate            date_min            date_max
+     train     37639             0.203087              0.117564 2017-01-05 11:56:06 2017-11-30 23:36:03
+validation     18981             0.249197              0.158580 2017-12-01 00:01:14 2018-02-28 23:57:55
+      test     38948             0.198983              0.123087 2018-03-01 00:00:00 2018-08-29 15:00:37
+
+=== TABEL 3: FEATURE CONTRACT (summary) ===
+  Total fitur terdokumentasi: 25
+  Fitur yang masuk model: 20
+  Explanatory-only (TIDAK masuk model): 5
+
+  In-model features:
+                 feature timing        unit
+ estimated_delivery_days    pre        hari
+          purchase_month    pre        1-12
+      purchase_dayofweek    pre         0-6
+          customer_state    pre kategorikal
+            seller_state    pre kategorikal
+              same_state    pre       biner
+             distance_km    pre          km
+                 n_items    pre       count
+        n_unique_sellers    pre       count
+               price_sum    pre         IDR
+             freight_sum    pre         IDR
+  freight_to_price_ratio    pre       rasio
+              weight_sum    pre        gram
+              volume_sum    pre         cm3
+       payment_value_sum    pre         IDR
+payment_installments_max    pre       count
+       payment_type_main    pre kategorikal
+            top_category    pre kategorikal
+        approval_lag_hrs     in         jam
+  carrier_pickup_lag_hrs     in         jam
+
+  Explanatory-only features:
+             feature       timing                                                  note
+actual_delivery_days post-outcome                      hanya untuk explanatory analysis
+             is_late post-outcome                      hanya untuk explanatory analysis
+    estimation_error post-outcome hanya untuk explanatory analysis; positif = terlambat
+   seller_phase_days post-outcome                    untuk delivery chain decomposition
+logistics_phase_days post-outcome                    untuk delivery chain decomposition
+
+=== TABEL 4: HASIL KLASIFIKASI ===
+    scenario    model  roc_auc  pr_auc  recall  precision     f1  brier_score
+S1_pre_broad    Dummy   0.4994  0.1988  1.0000     0.1990 0.3319       0.3210
+S1_pre_broad       LR   0.5851  0.2838  0.4898     0.2514 0.3323       0.2349
+S1_pre_broad       RF   0.5920  0.2920  0.4003     0.2722 0.3240       0.2313
+S1_pre_broad LightGBM   0.5741  0.2698  0.4281     0.2477 0.3138       0.2191
+ S2_in_broad    Dummy   0.4994  0.1988  1.0000     0.1990 0.3319       0.3210
+ S2_in_broad       LR   0.6268  0.3235  0.4711     0.2920 0.3605       0.2282
+ S2_in_broad       RF   0.6253  0.3175  0.3806     0.3123 0.3431       0.2262
+ S2_in_broad LightGBM   0.6007  0.2998  0.4168     0.2813 0.3359       0.2085
+S3_in_severe    Dummy   0.5016  0.1234  1.0000     0.1231 0.2192       0.2104
+S3_in_severe       LR   0.6507  0.2371  0.4654     0.2050 0.2846       0.2141
+S3_in_severe       RF   0.6445  0.2302  0.3901     0.2233 0.2840       0.2089
+S3_in_severe LightGBM   0.6157  0.2216  0.4274     0.1901 0.2632       0.1696
+
+=== TABEL 5: TOP-K CAPTURE (Intervention Simulation) ===
+    scenario    model  top_5pct_recall  top_10pct_recall  top_20pct_recall  top_30pct_recall
+S1_pre_broad    Dummy           0.0494            0.1022            0.1991            0.2986
+S1_pre_broad       LR           0.1062            0.1694            0.2875            0.4039
+S1_pre_broad       RF           0.1135            0.1814            0.2981            0.4084
+S1_pre_broad LightGBM           0.0965            0.1596            0.2759            0.3825
+ S2_in_broad    Dummy           0.0494            0.1022            0.1991            0.2986
+ S2_in_broad       LR           0.1222            0.2039            0.3350            0.4480
+ S2_in_broad       RF           0.1199            0.2052            0.3325            0.4440
+ S2_in_broad LightGBM           0.1098            0.1834            0.3114            0.4214
+S3_in_severe    Dummy           0.0551            0.1014            0.2059            0.3035
+S3_in_severe       LR           0.1464            0.2420            0.3751            0.4875
+S3_in_severe       RF           0.1437            0.2409            0.3730            0.4856
+S3_in_severe LightGBM           0.1385            0.2153            0.3400            0.4499
+
+=== TABEL 6: CLUSTER PROFILE ===
+ cluster  n_orders  broad_diss_rate  severe_diss_rate  avg_freight_sum  avg_price_sum  avg_freight_ratio  avg_weight_sum  avg_est_days  avg_distance_km  avg_n_items  pct_same_state
+       1      5926            0.293             0.201           70.091        462.156              0.264       15935.502        26.239          668.099        1.552           0.328
+       0     89642            0.205             0.123           19.633        115.253              0.311        1485.939        23.473          595.711        1.114           0.362
+
+=== CONSISTENCY CHECK ===
+  ✓ Split: 3 partisi ada
+  ✓ Split: total orders > 50K
+  ✓ Scenarios: 3 skenario ada
+  ✗ AUC: ada yang < 0.5 (model lebih buruk dari random?)
+  ✓ LightGBM: ada di hasil
+  ✓ LR: ada di hasil
+  ✓ Feature contract: 5 post-outcome vars terdokumentasi
+  ✓ Leakage: semua TIDAK-masuk-model adalah post-outcome
+
+Hasil check: 7 passed, 1 failed
+
+=== OUTPUT FILES ===
+  Tables:  H:\My Drive\olist_project\outputs\tables
+  Figures: H:\My Drive\olist_project\outputs\figures
+  outputs\tables\01_join_coverage.csv
+  outputs\tables\01_key_uniqueness.csv
+  outputs\tables\01_monthly_distribution.csv
+  outputs\tables\01_null_report.csv
+  outputs\tables\01_order_status_distribution.csv
+  outputs\tables\01_review_duplication_summary.csv
+  outputs\tables\01_review_score_distribution.csv
+  outputs\tables\01_table_summary.csv
+  outputs\tables\02_dataset_summary.csv
+  outputs\tables\02_split_summary.csv
+  outputs\tables\03_feature_contract.csv
+  outputs\tables\03_missing_value_report.csv
+  outputs\tables\04_brier_scores.csv
+  outputs\tables\04_classification_metrics.csv
+  outputs\tables\04_lr_coef_S1_pre_broad.csv
+  outputs\tables\04_topk_capture.csv
+  outputs\tables\05_asymmetry_check.csv
+  outputs\tables\05_category_dissatisfaction.csv
+  outputs\tables\05_delivery_chain_quartiles.csv
+  outputs\tables\05_estimation_error_bins.csv
+  outputs\tables\05_geographic_same_state.csv
+  outputs\tables\05_late_vs_error_auc.csv
+  outputs\tables\05_state_dissatisfaction.csv
+  outputs\tables\06_cluster_profile.csv
+  outputs\tables\06_correlation_matrix.csv
+  outputs\tables\06_elbow_silhouette.csv
+  outputs\tables\07_table2_split_summary.csv
+  outputs\tables\07_table3_feature_contract.csv
+  outputs\tables\07_table4_classification_metrics.csv
+  outputs\tables\07_table5_topk_capture.csv
+  outputs\tables\07_table6_cluster_profile.csv
+  outputs\tables\filtered_dataset_summary.csv
+  outputs\tables\key_uniqueness.csv
+  outputs\tables\split_summary.csv
+  outputs\tables\table_summary.csv
+  outputs\figures\04_calibration_curves.png
+  outputs\figures\04_cumulative_gain_S2.png
+  outputs\figures\04_lr_coef_S1_pre_broad.png
+  outputs\figures\04_pr_curves.png
+  outputs\figures\04_roc_curves.png
+  outputs\figures\04_shap_S2_in_broad.png
+  outputs\figures\05_category_dissatisfaction.png
+  outputs\figures\05_delivery_chain_violin.png
+  outputs\figures\05_estimation_error_dissatisfaction.png
+  outputs\figures\05_geographic_same_state.png
+  outputs\figures\06_cluster_diss_rate.png
+  outputs\figures\06_cluster_radar.png
+  outputs\figures\06_elbow_silhouette.png

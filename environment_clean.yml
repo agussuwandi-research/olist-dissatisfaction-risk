@@ -1,0 +1,21 @@
+# environment_clean.yml — GUNAKAN FILE INI untuk setup di mesin baru.
+# Untuk snapshot exact state mesin pengembang, lihat environment.yml.
+name: olist
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pandas>=2.0
+  - numpy>=1.24
+  - scikit-learn>=1.3
+  - lightgbm>=4.0
+  - shap>=0.44
+  - matplotlib>=3.7
+  - scipy>=1.10
+  - openpyxl>=3.1
+  - jupyter
+  - jupyterlab
+  - ipykernel
+  - tqdm
+  - pip

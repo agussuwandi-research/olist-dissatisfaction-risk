@@ -1,0 +1,2 @@
+TP,FP,FN,TN,precision,recall,threshold
+3651,8854,4099,22344,0.292,0.4711,0.4955

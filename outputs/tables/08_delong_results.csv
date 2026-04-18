@@ -1,0 +1,6 @@
+comparison,model_A,model_B,auc_A,auc_B,delta_auc,z_stat,p_value,ci95_lo,ci95_hi,significance
+RQ2: LR   S1 vs S2,LR_S1,LR_S2,0.5851,0.6268,-0.0418,-16.1959,0.0,-0.0468,-0.0367,***
+RQ2: RF   S1 vs S2,RF_S1,RF_S2,0.592,0.6253,-0.0332,-14.7522,0.0,-0.0377,-0.0288,***
+RQ2: LGBM S1 vs S2,LGBM_S1,LGBM_S2,0.5741,0.6007,-0.0267,-8.4397,0.0,-0.0329,-0.0205,***
+Disc: LR vs RF (S2),LR_S2,RF_S2,0.6268,0.6253,0.0016,0.7442,0.4568,-0.0026,0.0057,ns
+Disc: LR vs LGBM (S2),LR_S2,LGBM_S2,0.6268,0.6007,0.0261,8.0489,0.0,0.0197,0.0325,***

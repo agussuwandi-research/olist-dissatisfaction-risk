@@ -1,0 +1,7 @@
+table,key,n_rows,n_unique,is_unique,expected_unique
+orders,order_id,99441,99441,True,True
+customers,customer_id,99441,99441,True,True
+products,product_id,32951,32951,True,True
+sellers,seller_id,3095,3095,True,True
+reviews,review_id,99224,98410,False,True
+reviews,order_id,99224,98673,False,False

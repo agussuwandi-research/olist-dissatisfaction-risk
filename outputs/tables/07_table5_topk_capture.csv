@@ -1,0 +1,13 @@
+scenario,model,top_5pct_recall,top_10pct_recall,top_20pct_recall,top_30pct_recall
+S1_pre_broad,Dummy,0.0494,0.1022,0.1991,0.2986
+S1_pre_broad,LR,0.1062,0.1694,0.2875,0.4039
+S1_pre_broad,RF,0.1135,0.1814,0.2981,0.4084
+S1_pre_broad,LightGBM,0.0965,0.1596,0.2759,0.3825
+S2_in_broad,Dummy,0.0494,0.1022,0.1991,0.2986
+S2_in_broad,LR,0.1222,0.2039,0.335,0.448
+S2_in_broad,RF,0.1199,0.2052,0.3325,0.444
+S2_in_broad,LightGBM,0.1098,0.1834,0.3114,0.4214
+S3_in_severe,Dummy,0.0551,0.1014,0.2059,0.3035
+S3_in_severe,LR,0.1464,0.242,0.3751,0.4875
+S3_in_severe,RF,0.1437,0.2409,0.373,0.4856
+S3_in_severe,LightGBM,0.1385,0.2153,0.34,0.4499

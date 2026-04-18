@@ -1,0 +1,9 @@
+quartile,n,diss_rate,phase
+Q1,23890,0.17216408539137715,seller_phase_days
+Q2,23890,0.18668899120971116,seller_phase_days
+Q3,23889,0.20620369207585082,seller_phase_days
+Q4,23890,0.2772708246128087,seller_phase_days
+Q1,23890,0.15374633737965676,logistics_phase_days
+Q2,23891,0.16449709095475284,logistics_phase_days
+Q3,23888,0.17912759544541193,logistics_phase_days
+Q4,23890,0.34495604855588113,logistics_phase_days

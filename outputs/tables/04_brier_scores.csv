@@ -1,0 +1,4 @@
+scenario,brier_score
+S1_pre_broad,0.2191
+S2_in_broad,0.2085
+S3_in_severe,0.1696

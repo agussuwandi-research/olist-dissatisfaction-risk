@@ -1,0 +1,6 @@
+table,key,is_unique
+orders,order_id,True
+customers,customer_id,True
+products,product_id,True
+sellers,seller_id,True
+reviews,review_id,False

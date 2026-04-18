@@ -1,0 +1,26 @@
+feature,definition,formula,unit,source,aggregation,timing,in_model,note
+estimated_delivery_days,Estimasi waktu delivery dari platform,estimated_delivery_date - purchase_timestamp,hari,orders,per order,pre,ya,
+purchase_month,Bulan pembelian,purchase_timestamp.month,1-12,orders,per order,pre,ya,
+purchase_dayofweek,Hari dalam minggu (0=Senin),purchase_timestamp.dayofweek,0-6,orders,per order,pre,ya,
+customer_state,State pelanggan,dari customers table,kategorikal,customers,per order,pre,ya,
+seller_state,State seller representative,seller dengan price tertinggi per order,kategorikal,sellers,per order,pre,ya,seller representative = seller dengan price item tertinggi per order
+same_state,Flag customer dan seller satu state,customer_state == seller_state → 1/0,biner,customers + sellers,per order,pre,ya,
+distance_km,Jarak Haversine customer-seller,"haversine(cust_centroid, sell_centroid)",km,geolocation,per order,pre,ya,centroid = median lat/lng per zip prefix
+n_items,Jumlah item dalam order,max(order_item_id) per order_id,count,order_items,per order,pre,ya,
+n_unique_sellers,Jumlah seller unik dalam order,nunique(seller_id) per order_id,count,order_items,per order,pre,ya,
+price_sum,Total harga semua item,sum(price) per order_id,IDR,order_items,per order,pre,ya,
+freight_sum,Total ongkos kirim semua item,sum(freight_value) per order_id,IDR,order_items,per order,pre,ya,
+freight_to_price_ratio,Rasio ongkir terhadap harga,freight_sum / (price_sum + 0.01),rasio,order_items,per order,pre,ya,
+weight_sum,Total berat semua produk,sum(product_weight_g) per order_id,gram,order_items + products,per order,pre,ya,
+volume_sum,Total volume semua produk,sum(L*H*W) per order_id,cm3,order_items + products,per order,pre,ya,
+payment_value_sum,Total nilai pembayaran,sum(payment_value) per order_id,IDR,order_payments,per order,pre,ya,
+payment_installments_max,Cicilan terbanyak dalam order,max(payment_installments) per order_id,count,order_payments,per order,pre,ya,
+payment_type_main,Tipe pembayaran dominan,modus payment_type per order_id,kategorikal,order_payments,per order,pre,ya,
+top_category,Kategori produk utama per order,kategori dari item dengan price tertinggi per order,kategorikal,order_items + products + category_translation,per order,pre,ya,dalam bahasa Inggris
+approval_lag_hrs,Waktu dari pembelian ke approval,order_approved_at - order_purchase_timestamp,jam,orders,per order,in,"ya (S2,S3 only)",diketahui setelah order_approved_at
+carrier_pickup_lag_hrs,Waktu dari approval ke carrier pickup,delivered_carrier_date - order_approved_at,jam,orders,per order,in,"ya (S2,S3 only)",diketahui setelah carrier_date; fitur terpenting S2
+actual_delivery_days,Waktu actual pengiriman ke pelanggan,delivered_customer_date - purchase_timestamp,hari,orders,per order,post-outcome,TIDAK — leakage,hanya untuk explanatory analysis
+is_late,Flag order terlambat dari estimasi,delivered_customer_date > estimated_delivery_date → 1/0,biner,orders,per order,post-outcome,TIDAK — leakage,hanya untuk explanatory analysis
+estimation_error,Selisih actual vs estimasi delivery,actual_delivery_days - estimated_delivery_days,hari,orders,per order,post-outcome,TIDAK — leakage,hanya untuk explanatory analysis; positif = terlambat
+seller_phase_days,Durasi fase seller (purchase → carrier),delivered_carrier_date - purchase_timestamp,hari,orders,per order,post-outcome,TIDAK — leakage,untuk delivery chain decomposition
+logistics_phase_days,Durasi fase logistik (carrier → customer),delivered_customer_date - delivered_carrier_date,hari,orders,per order,post-outcome,TIDAK — leakage,untuk delivery chain decomposition

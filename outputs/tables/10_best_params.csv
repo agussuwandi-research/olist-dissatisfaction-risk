@@ -1,0 +1,2 @@
+best_val_auc,n_estimators,learning_rate,num_leaves,max_depth,min_child_samples,subsample,colsample_bytree,reg_alpha,reg_lambda
+0.6269,475,0.025141065985630085,16,6,93,0.853450290285064,0.5332931695724528,0.004182452277421364,0.010138940699853612

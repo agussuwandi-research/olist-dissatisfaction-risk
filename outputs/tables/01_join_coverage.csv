@@ -1,0 +1,7 @@
+join,n_left,n_matched,coverage_pct
+orders.customer_id → customers,99441,99441,100.0
+items.order_id → orders,98666,98666,100.0
+payments.order_id → orders,99440,99440,100.0
+reviews.order_id → orders,98673,98673,100.0
+items.product_id → products,32951,32951,100.0
+items.seller_id → sellers,3095,3095,100.0

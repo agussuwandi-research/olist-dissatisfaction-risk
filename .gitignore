@@ -1,0 +1,43 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.venv/
+env/
+venv/
+*.egg-info/
+
+# Model artifacts (bisa di-reproduce dari script)
+*.pkl
+*.joblib
+*.feather
+*.h5
+*.pt
+*.pth
+
+# Archive
+*.zip
+*.tar.gz
+*.tar
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+*.tmp
+*.bak

@@ -1,0 +1,2 @@
+total_test,n_positive,TP,FP,FN,TN,precision,recall,fn_pct_score3,fn_pct_not_late,threshold
+38948,7750,3651,8854,4099,22344,0.292,0.4711,0.4299,0.7907,0.4955
