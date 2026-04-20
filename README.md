@@ -3,6 +3,9 @@
 ## Judul Penelitian
 **Predicting Customer Dissatisfaction Before Delivery: Explainable Risk Scoring from Fulfillment and Logistics Signals in E-Commerce**
 
+## 🚀 Live Dashboard
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://olist-dissatisfaction-risk-fend4uqwkhqqmk32zr84nt.streamlit.app/)
+
 ## Ringkasan
 Proyek ini membangun sistem **risk scoring dissatisfaction pelanggan sebelum outcome terjadi** pada dataset Olist (Brazilian e-commerce). Pendekatan utama: klasifikasi berbasis sinyal fulfillment dan logistik, dengan analisis explanatory tentang mekanisme dissatisfaction, dan translasi hasil ke prioritas intervensi operasional.
 
