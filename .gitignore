@@ -41,3 +41,13 @@ desktop.ini
 *.log
 *.tmp
 *.bak
+
+# Data (besar; regenerable / berlisensi CC BY-NC-SA — jangan commit ke repo publik)
+data_raw/
+data_interim/
+
+# Model tersimpan (regenerable dari script)
+outputs/models/
+
+# Report drafts & PDF referensi (berhak cipta — jangan commit ke repo publik)
+report/

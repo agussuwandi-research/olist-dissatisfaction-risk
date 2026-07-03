@@ -53,7 +53,9 @@ Pre-fulfillment → Severe dissatisfaction
 ### Peran
 - **Logistic Regression**: interpretable baseline
 - **Random Forest**: ensemble baseline
-- **LightGBM**: main predictive model
+- **LightGBM**: main predictive model (pre-registered)
+
+> **Addendum (pasca-hasil, 1 Juli 2026):** Pre-registration di atas dicatat apa adanya. Namun secara **empiris, Logistic Regression (S2) adalah model terbaik** dan mengungguli LightGBM secara signifikan (uji DeLong, p<0,001); LightGBM tuned hanya setara LR (Δ+0,003, tidak signifikan). Karena itu **model utama yang direkomendasikan untuk pelaporan, paper, dan knowledge-based system adalah Logistic Regression**. LightGBM tetap dipakai untuk analisis SHAP dan pembanding non-linear.
 
 ### Baseline tambahan
 - DummyClassifier hanya sebagai baseline konteks evaluasi

@@ -2,6 +2,9 @@
 
 Legenda: [ ] belum | [~] sedang | [x] selesai
 
+> Status disinkronkan dengan kondisi folder aktual (1 Juli 2026).
+> Daftar temuan audit & perbaikan: lihat `AUDIT_FINDINGS.md`.
+
 ---
 
 ## A. Setup Proyek
@@ -9,7 +12,7 @@ Legenda: [ ] belum | [~] sedang | [x] selesai
 - [x] Pindahkan semua raw CSV ke `data_raw/`
 - [x] Simpan `olist_blueprint_final.md` di root project
 - [x] Buat conda env `olist`
-- [x] Install package utama (termasuk shap, lightgbm)
+- [x] Install package utama (termasuk shap, lightgbm, optuna, streamlit)
 - [x] Register Jupyter kernel `Python (olist)`
 - [x] Export `environment.yml` → lihat juga `environment_clean.yml` (versi portabel)
 - [x] Buat `.gitignore`
@@ -20,96 +23,87 @@ Legenda: [ ] belum | [~] sedang | [x] selesai
 - [x] Buat `README.md`
 - [x] Buat `DECISIONS.md`
 - [x] Buat `TASKS.md`
-- [ ] Isi `feature_contract` (dikerjakan otomatis oleh `03_feature_engineering.py`)
-- [ ] Siapkan outline RTM1
-- [ ] Siapkan outline RTM2
-- [ ] Siapkan outline RTM3
-- [ ] Siapkan outline RTM4
+- [x] Isi `feature_contract` (otomatis oleh `03_feature_engineering.py`) → 25 fitur
+- [x] Outline & draf RTM1 (`report/rtm1/`)
+- [~] RTM2 / RTM3 (materi tercakup di paper draft)
+- [ ] RTM4 — **jatuh tempo 6 Juli 2026** (presentasi + knowledge-based system model terbaik)
 
 ---
 
 ## C. Data Audit
 - [x] Buat `scripts/01_data_audit.py`
-- [ ] Jalankan dan simpan output: `01_table_summary.csv`, `01_null_report.csv`,
-      `01_key_uniqueness.csv`, `01_join_coverage.csv`,
-      `01_review_duplication_summary.csv`, `01_monthly_distribution.csv`,
-      `01_order_status_distribution.csv`, `01_review_score_distribution.csv`
-
----
+- [x] Jalankan & simpan output `01_*` (semua ada di `outputs/tables/`)
 
 ## D. Preprocessing Dasar
 - [x] Buat `scripts/02_preprocessing.py`
-- [ ] Jalankan dan simpan: `reviews_dedup.csv`, `orders_filtered.csv`,
-      `02_dataset_summary.csv`, `02_split_summary.csv`
-- [ ] Verifikasi: order_id unik, target tidak null, 3 split ada
-
----
+- [x] Jalankan & simpan `reviews_dedup.csv`, `orders_filtered.csv`, `02_*`
+- [x] Verifikasi: order_id unik, target tidak null, 3 split ada
 
 ## E. Feature Engineering
 - [x] Buat `scripts/03_feature_engineering.py`
-- [ ] Jalankan dan simpan: `order_level_features_pre.csv`, `order_level_features_in.csv`,
-      `explanatory_variables.csv`, `clustering_features.csv`,
-      `03_feature_contract.csv`, `03_missing_value_report.csv`
+- [x] Jalankan & simpan feature tables + `03_feature_contract.csv`, `03_missing_value_report.csv`
 
----
-
-## F. Quality Gate (otomatis di script 04)
-- [ ] `assert_no_leakage()` passed untuk X_train, X_val, X_test
-- [ ] Semua blacklist kolom tidak ada di feature matrix
-
----
+## F. Quality Gate (di script 04)
+- [x] `assert_no_leakage()` passed untuk X_train, X_val, X_test
+- [x] Semua blacklist kolom tidak ada di feature matrix
 
 ## G. Modeling Klasifikasi
 - [x] Buat `scripts/04_modeling_classification.py`
-- [ ] Jalankan: S1, S2, S3 × LR + RF + LightGBM + Dummy
-- [ ] Threshold dipilih dari validation set
-- [ ] Output: `04_classification_metrics.csv`, `04_topk_capture.csv`,
-      `04_thresholds.json`, `04_brier_scores.csv`,
-      `04_roc_curves.png`, `04_pr_curves.png`, `04_calibration_curves.png`,
-      `04_cumulative_gain_S2.png`, `04_shap_S2_in_broad.png`, `04_lr_coef_S1_pre_broad.png`
-
----
+- [x] Jalankan: S1, S2, S3 × LR + RF + LightGBM + Dummy
+- [x] Threshold dipilih dari validation set
+- [x] Output: `04_*` (metrics, topk, thresholds, brier, ROC/PR/calibration/SHAP/gain/coef)
 
 ## H. Explanatory Analysis
 - [x] Buat `scripts/05_explanatory_analysis.py`
-- [ ] Jalankan: estimation error bins + asymmetry, AUC is_late vs estimation_error,
-      delivery chain quartiles, category rank, state-level, same-state vs cross-state
-- [ ] Output: semua `05_*.csv` dan `05_*.png`
-
----
+- [x] Jalankan: estimation error + asymmetry, is_late vs estimation_error, delivery chain, kategori, state, same-state
+- [x] Output: semua `05_*`
 
 ## I. Clustering
 - [x] Buat `scripts/06_clustering.py`
-- [ ] Jalankan: redundancy check → RobustScaler → elbow+silhouette →
-      stability check (5 seeds) → K-Means final → profiling → visualization
-- [ ] Output: `06_elbow_silhouette.csv`, `06_cluster_profile.csv`,
-      `06_correlation_matrix.csv`, `cluster_assignments.csv`,
-      `06_elbow_silhouette.png`, `06_cluster_diss_rate.png`, `06_cluster_radar.png`
-
----
+- [x] Jalankan: redundancy → RobustScaler → elbow+silhouette → stability → K-Means → profiling
+- [x] Output: `06_*`, `cluster_assignments.csv`
+- [ ] **Tindak lanjut audit:** pemilihan K masih murni max-silhouette → K=2 (trivial). Pertimbangkan K=3–4 + interpretability (lihat B3 di AUDIT_FINDINGS.md)
 
 ## J. Reporting Assets
 - [x] Buat `scripts/07_reporting_assets.py`
-- [ ] Jalankan setelah semua script selesai
-- [ ] Output: `07_table2..6_*.csv`, `07_report_summary.txt`
-- [ ] Verifikasi consistency check: semua passed
+- [x] Jalankan → `07_table2..6_*`, `07_report_summary.txt`
+- [ ] **Jalankan ulang `07`** setelah script 08–11 (summary saat ini belum memuat DeLong/tuning/error/seller-hist)
 
 ---
 
-## K. RTM dan Paper
-### RTM1: [ ] Latar belakang, RQ, tinjauan paper, rencana metode
-### RTM2: [ ] Dataset, preprocessing, split, feature engineering, leakage boundary
-### RTM3: [ ] 9 model (3 algo × 3 skenario), evaluasi, clustering formal, profil cluster
-### RTM4: [ ] Pembahasan, gap S1 vs S2, expectation violation, delivery chain,
-              cluster interpretation, intervensi, keterbatasan
+## K. Analisis Lanjutan (ekstensi)
+- [x] `scripts/08_delong_test.py` — uji signifikansi AUC S1 vs S2 (RQ2) → `08_delong_results.csv`
+- [x] `scripts/09_error_analysis.py` — analisis FN/FP model S2 → `09_*`
+- [x] `scripts/10_lgbm_tuning.py` — tuning Optuna LightGBM → `10_*`
+- [x] `scripts/10b_lgbm_tuned_fair.py` — perbandingan fair (train-only) → `10b_fair_comparison.csv` **(hasil kanonik)**
+- [x] `scripts/11_seller_hist_experiment.py` — eksperimen fitur histori seller → `11_*`
 
-### Paper Draft
-- [ ] Introduction | Data & Methods | Results | Discussion | Limitations | Conclusion
+## L. Dashboard & Deployment
+- [x] Buat `dashboard.py` (Streamlit, 9 tab)
+- [x] Deploy ke Streamlit Community Cloud
+- [x] Publikasi repo GitHub (`agussuwandi-research/olist-dissatisfaction-risk`)
+- [ ] **Tindak lanjut audit:** keluarkan `data_raw`/`data_interim` dari repo publik; tab error-analysis baca `09_*.csv` (jangan hardcode)
 
 ---
 
-## L. Urutan Eksekusi
+## M. Paper (RTM & UAS)
+- [x] Paper draft: Title, Author, Abstract, Keyword, Introduction, Related Works, Methodology
+- [ ] **Result and Discussion** — belum ada (UAS, jatuh tempo 27 Juli 2026)
+- [ ] **Conclusion** — belum ada
+- [ ] Perbaiki klaim di paper: GPU-accelerated training (kode CPU), DummyClassifier (`stratified`, bukan `most_frequent`)
+- [ ] Klarifikasi peran author vs pembimbing (Andi Sunyoto, Robert Marco)
+- [ ] Cek Turnitin < 20%
 
+---
+
+## N. Ringkasan Kondisi
+- Seluruh pipeline (01–11 + 10b) sudah dibuat & dijalankan; output lengkap di `outputs/`.
+- Dashboard live & repo publik sudah ada.
+- **Fokus berikutnya:** (1) rapikan sesuai `AUDIT_FINDINGS.md`; (2) RTM#4 (6 Juli) knowledge-based system model terbaik; (3) UAS (27 Juli) lengkapi Result/Discussion/Conclusion paper.
+
+---
+
+## Urutan Eksekusi Pipeline
 ```bash
 cd scripts/
 python 01_data_audit.py
@@ -118,19 +112,10 @@ python 03_feature_engineering.py
 python 04_modeling_classification.py
 python 05_explanatory_analysis.py
 python 06_clustering.py
-python 07_reporting_assets.py
+python 08_delong_test.py
+python 09_error_analysis.py
+python 10_lgbm_tuning.py
+python 10b_lgbm_tuned_fair.py
+python 11_seller_hist_experiment.py
+python 07_reporting_assets.py   # jalankan paling akhir
 ```
-
-**Aturan:** Jangan jalankan 04–06 sebelum 03 selesai. Jalankan 07 terakhir.
-
----
-
-## M. Catatan Progres
-
-### Update terakhir
-- Semua 7 script sudah tersedia di `scripts/`
-- Script 01 dan 02 sudah diperbaiki: path relatif (pathlib), validasi lebih ketat
-- Script 03–07 dibuat baru: feature engineering lengkap, full modeling pipeline,
-  explanatory analysis, clustering dengan stability check, reporting consolidation
-- `environment_clean.yml` ditambahkan: versi minimal portabel (hapus prefix Windows)
-- TASKS.md diupdate: status script sudah benar ([x] untuk yang sudah ada)

@@ -50,10 +50,12 @@ Desain ini **LOCKED**. Semua keputusan metodologis ada di `DECISIONS.md`.
 ### Klasifikasi (tiap skenario)
 | Algoritma | Peran |
 |---|---|
-| Logistic Regression | Interpretable baseline |
+| Logistic Regression | **Model terbaik (empiris)** + interpretable baseline |
 | Random Forest | Ensemble baseline |
-| LightGBM | Main predictive model (SHAP analysis) |
+| LightGBM | Kandidat gradient boosting + SHAP analysis |
 | DummyClassifier | Baseline konteks evaluasi saja — bukan algoritma utama |
+
+> **Model terbaik (berdasarkan hasil):** **Logistic Regression (S2 in-fulfillment)** adalah model berperforma tertinggi — ROC-AUC 0,627, mengungguli LightGBM secara signifikan (uji DeLong, p<0,001). LightGBM yang di-tuning Optuna hanya setara LR (Δ+0,003, tidak signifikan), mengindikasikan hubungan fitur–ketidakpuasan bersifat mayoritas linear. LR dipilih sebagai model utama: performa terbaik **dan** interpretable (koefisien langsung dibaca) — ideal untuk knowledge-based system. LightGBM & RF tetap dilaporkan sebagai pembanding; SHAP dijalankan pada LightGBM.
 
 ### Clustering (extension)
 - K-Means + RobustScaler
@@ -124,10 +126,15 @@ python 03_feature_engineering.py
 python 04_modeling_classification.py   # paling lama
 python 05_explanatory_analysis.py
 python 06_clustering.py
+python 08_delong_test.py               # uji signifikansi S1 vs S2 (RQ2)
+python 09_error_analysis.py            # analisis FN/FP model terbaik
+python 10_lgbm_tuning.py               # tuning Optuna LightGBM
+python 10b_lgbm_tuned_fair.py          # perbandingan fair (train-only)
+python 11_seller_hist_experiment.py    # eksperimen fitur histori seller
 python 07_reporting_assets.py
 ```
 
-Jangan jalankan 04–07 sebelum 03 selesai. Jalankan 07 paling terakhir.
+Jangan jalankan 04–11 sebelum 03 selesai. Jalankan 07 paling terakhir.
 
 ---
 
@@ -162,7 +169,12 @@ olist_project/
 │   ├── 04_modeling_classification.py
 │   ├── 05_explanatory_analysis.py
 │   ├── 06_clustering.py
-│   └── 07_reporting_assets.py
+│   ├── 07_reporting_assets.py
+│   ├── 08_delong_test.py
+│   ├── 09_error_analysis.py
+│   ├── 10_lgbm_tuning.py
+│   ├── 10b_lgbm_tuned_fair.py
+│   └── 11_seller_hist_experiment.py
 │
 ├── outputs/
 │   ├── tables/                        ← CSV hasil: metrics, feature contract, dll
@@ -182,8 +194,10 @@ olist_project/
 ├── DECISIONS.md                       ← semua keputusan metodologis yang locked
 ├── TASKS.md                           ← progress tracker
 ├── olist_blueprint_final.md           ← blueprint eksekusi lengkap
-├── environment.yml                    ← conda env lengkap (Windows-generated)
-└── environment_clean.yml              ← conda env minimal, portabel (gunakan ini)
+├── dashboard.py                       ← Streamlit dashboard (9 tab)
+├── environment_windows_only.yml       ← conda env lengkap (Windows-generated)
+├── environment_clean.yml              ← conda env minimal, portabel (gunakan ini)
+└── requirements.txt                   ← dependency dashboard (Streamlit Cloud)
 ```
 
 ---
@@ -200,6 +214,25 @@ conda activate olist
 # Register Jupyter kernel
 python -m ipykernel install --user --name olist --display-name "Python (olist)"
 ```
+
+---
+
+## Data
+
+`data_raw/` dan `data_interim/` **tidak disertakan di repo** (ukuran + lisensi Olist CC BY-NC-SA 4.0). Unduh dataset dari Kaggle lalu ekstrak ke `data_raw/`:
+<https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce>
+
+`data_interim/` terbentuk otomatis setelah menjalankan script 02–03.
+
+---
+
+## Dashboard
+
+```bash
+streamlit run dashboard.py
+```
+
+Versi online: <https://olist-dissatisfaction-risk-fend4uqwkhqqmk32zr84nt.streamlit.app/>
 
 ---
 
